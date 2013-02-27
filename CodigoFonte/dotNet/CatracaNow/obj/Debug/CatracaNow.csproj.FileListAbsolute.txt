@@ -1,0 +1,5 @@
+D:\Armário\Android\Desenvolvimento\Projetos\CatracaNow\dotNet\CatracaNow\CatracaNow\bin\CatracaNow.dll
+D:\Armário\Android\Desenvolvimento\Projetos\CatracaNow\dotNet\CatracaNow\CatracaNow\bin\CatracaNow.pdb
+D:\Armário\Android\Desenvolvimento\Projetos\CatracaNow\dotNet\CatracaNow\CatracaNow\obj\Debug\CatracaNow.csprojResolveAssemblyReference.cache
+D:\Armário\Android\Desenvolvimento\Projetos\CatracaNow\dotNet\CatracaNow\CatracaNow\obj\Debug\CatracaNow.dll
+D:\Armário\Android\Desenvolvimento\Projetos\CatracaNow\dotNet\CatracaNow\CatracaNow\obj\Debug\CatracaNow.pdb

@@ -1,0 +1,13 @@
+Catraca Now Android
+Especificação
+
+
+Criar um WCF que consulte as informações no banco
+toda vez que uma requisição for executada
+
+Criar um web service que consulte as informações no banco
+toda vez que uma requisição for executada
+
+Criar apalicação android
+
+Criar aplicação servidora
