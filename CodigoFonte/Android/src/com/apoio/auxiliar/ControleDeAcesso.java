@@ -1,21 +1,26 @@
 package com.apoio.auxiliar;
 
-import android.annotation.SuppressLint;
-
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
+
 @SuppressLint("SimpleDateFormat")
-public class ControleDeAcesso {
+public class ControleDeAcesso implements Serializable {
 	
-    public int Empresa;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public int Empresa;
     public int Filial;
     public int Codigo;
     public String Cracha;
@@ -33,9 +38,9 @@ public class ControleDeAcesso {
 	
 	private static SimpleDateFormat parseDT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	
-	public static List<ControleDeAcesso> parse(JSONObject obj) throws JSONException {
+	public static ArrayList<ControleDeAcesso> parse(JSONObject obj) throws JSONException {
 		
-		List<ControleDeAcesso> lista = new ArrayList<ControleDeAcesso>();
+		ArrayList<ControleDeAcesso> lista = new ArrayList<ControleDeAcesso>();
 		JSONObject dado;
 		ControleDeAcesso controle;
 		

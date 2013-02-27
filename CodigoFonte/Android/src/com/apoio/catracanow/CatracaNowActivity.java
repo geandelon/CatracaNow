@@ -1,29 +1,30 @@
 package com.apoio.catracanow;
 
-import java.util.List;
-
-import org.json.JSONException;
-
-import com.apoio.auxiliar.ControleDeAcesso;
-import com.apoio.auxiliar.MapeadorControleDeAcesso;
+import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.apoio.auxiliar.ControleDeAcesso;
+
 public class CatracaNowActivity extends Activity {
 
 	private Context _contexto;	
-	private List<ControleDeAcesso> _listaAcessoAtual;
-	private MapeadorControleDeAcesso _mapeadorControleDeAcesso;
-	private static final String _url = "http://10.0.1.81:23020/catracanow/Codigo/Servicos/ServicoControleDeAcesso.asmx/HelloWorld";
+	private ArrayList<ControleDeAcesso> _listaAcessoAtual;
 	private WorkerThread _wT = null;
+
+	public static final String ATUALIZACAO_ACESSOS_SERVICE = "ATUALIZACAO_ACESSOS_SERVICE";
+	public static final String VALOR = "ListaDeAcesso";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class CatracaNowActivity extends Activity {
 		setContentView(R.layout.activity_catraca_now);
 
 		_contexto = this;
-		_mapeadorControleDeAcesso = new MapeadorControleDeAcesso(_contexto);
+		LocalBroadcastManager.getInstance(_contexto).registerReceiver(mMessageReceiver, new IntentFilter(CatracaNowService.ATUALIZACAO_ACESSOS_ACTIVITY));
 
 		// temos que iniciar e finalizar o servidor
 		// quando estiver ligado
@@ -47,8 +48,7 @@ public class CatracaNowActivity extends Activity {
 					// The toggle is enabled
 					//startService(new Intent(_contexto, CatracaNowService.class));
 
-					_wT = new WorkerThread();
-					_wT.run();
+					criarWorkerThread();
 
 				} else {
 					// The toggle is disabled
@@ -68,8 +68,16 @@ public class CatracaNowActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		interromperWorkerThread();
 		super.onDestroy();
+		interromperWorkerThread();
+		LocalBroadcastManager.getInstance(_contexto).unregisterReceiver(mMessageReceiver);
+	}
+
+	private void criarWorkerThread() {
+		if (_wT == null) {		
+			_wT = new WorkerThread();
+			_wT.run();
+		}
 	}
 
 	private void interromperWorkerThread() {
@@ -81,46 +89,35 @@ public class CatracaNowActivity extends Activity {
 		}
 	}
 
-	private class WorkerThread extends Thread {
+	private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+		@SuppressWarnings("unchecked")
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			_listaAcessoAtual = (ArrayList<ControleDeAcesso>) intent.getSerializableExtra(CatracaNowService.VALOR);
+		}
+	};
+
+	private class WorkerThread extends Thread {		
 
 		@Override
 		public void run() {
-
-			// só gerencia as chamadas de tempo em tempo
-			// e atualiza a listaAcessoAtual
-
-			startService(new Intent(_contexto, CatracaNowService.class));
-
-			/*			try {
-				_listaAcessoAtual = ControleDeAcesso.parse(_mapeadorControleDeAcesso.Consulte(_url));
-			} catch (JSONException e1) {
+			
+			try {
+				sleep(10000);
+			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}*/
-
-			/*			while (true) {				
-				try {
-
-					Thread.sleep(5000);				
-					// analisa se houve modificação
-					// caso exista enviar notificação
-					_listaAcessoAux = ControleDeAcesso.parse(consultarAcesso());
-
-					if (_listaAcessoAtual.size() == 0)
-						_listaAcessoAtual = _listaAcessoAux;
-					else					
-						gerarNotificacao();
-
-				} catch (InterruptedException e) {
-					Toast.makeText(_contexto, "Problema ao colocar a thread para dormir.", Toast.LENGTH_SHORT).show();
-				} catch (Exception e) {
-					Toast.makeText(_contexto, e.getMessage(), Toast.LENGTH_SHORT).show();					
-				}*/
-
-
-			super.run();
+				e.printStackTrace();
+			}
+			
+			Intent intent = new Intent(_contexto, CatracaNowService.class);
+			intent.putExtra(VALOR, _listaAcessoAtual);
+			startService(intent);
 		}
 
+		@Override
+		protected void finalize() throws Throwable {
+			super.finalize();
+		}
 	}
 
 }
