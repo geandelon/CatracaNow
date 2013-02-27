@@ -113,8 +113,8 @@ public class CatracaNowService2 extends Service {
 			}
 			
 		}
-		
-		public JSONObject consultarAcesso() {
+
+		private JSONObject consultarAcesso() {
 			try {
 				return JSONParser.ObterDados(_url);
 				
@@ -123,8 +123,6 @@ public class CatracaNowService2 extends Service {
 				return null;
 			}
 		}
-
-
 
 	}
 

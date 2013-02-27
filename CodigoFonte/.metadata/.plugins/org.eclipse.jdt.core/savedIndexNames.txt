@@ -1,0 +1,4 @@
+INDEX VERSION 1.126+D:\Estudo\Projetos\CatracaNow\CodigoFonte\.metadata\.plugins\org.eclipse.jdt.core
+1569288770.index
+2814798127.index
+3277842891.index

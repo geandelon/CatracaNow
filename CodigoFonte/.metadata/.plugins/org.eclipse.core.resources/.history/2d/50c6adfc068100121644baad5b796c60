@@ -74,8 +74,8 @@ public class CatracaNowActivity extends Activity {
 
 	private void interromperWorkerThread() {
 		if (_wT != null) {
-			Toast.makeText(this, "Interrompendo a Thread de gerenciamento de consulta.", Toast.LENGTH_LONG).show();
-			Log.d("CatracaNow", "Interrompendo a Thread de gerenciamento de consulta.");
+			Toast.makeText(this, "CatracaNowService Criado", Toast.LENGTH_LONG).show();
+			Log.d("CatracaNow", "Interrompendo a Thread de gerenciamento.");
 			_wT.interrupt();
 			_wT = null;	
 		}

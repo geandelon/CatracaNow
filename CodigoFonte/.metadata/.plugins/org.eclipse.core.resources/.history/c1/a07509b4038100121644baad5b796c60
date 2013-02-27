@@ -114,9 +114,9 @@ public class CatracaNowService2 extends Service {
 			
 		}
 		
-		public JSONObject consultarAcesso() {
+		public JSONObject consultarAcesso(String pUrl) {
 			try {
-				return JSONParser.ObterDados(_url);
+				return JSONParser.ObterDados(pUrl);
 				
 			} catch (Exception e) {
 				Toast.makeText(_contexto, e.getMessage(), Toast.LENGTH_SHORT).show();

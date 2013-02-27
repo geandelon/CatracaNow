@@ -41,33 +41,41 @@ public class CatracaNowService extends IntentService {
 		// Serviço, consulta, analisa, exibi notificações e retorna a nova lista
 
 		_mapeadorControleDeAcesso = new MapeadorControleDeAcesso(this);
+		
+
+
 		try {
 			_listaAcessoAux = ControleDeAcesso.parse(_mapeadorControleDeAcesso.Consulte(_url));
 		} catch (JSONException e1) {
 			Toast.makeText(this, e1.getMessage(), Toast.LENGTH_SHORT).show();		
 		}
-		
-		if (_listaAcessoAtual != null) {
-			analisarAcessos();
-		}
 
+		analisarAcessos();
+
+		// Normally we would do some work here, like download a file.
+		// For our sample, we just sleep for 5 seconds.
+		/*	      long endTime = System.currentTimeMillis() + 5*1000;
+	      while (System.currentTimeMillis() < endTime) {
+	          synchronized (this) {
+	              try {
+	                  wait(endTime - System.currentTimeMillis());
+	              } catch (Exception e) {
+	              }
+	          }
+	      }*/
 	}
 
 	private void analisarAcessos() {
 		// compara as datas
 
-		if (_listaAcessoAux != null) {
-
-
-
-			for (int i = 0; i < _listaAcessoAux.size(); i++) {
-				gerarNotificacao();
-			}
-
+		for (int i = 0; i < _listaAcessoAux.size(); i++) {
+			gerarNotificacao();
 		}
 
-	}
+		//}
 
+	}
+	
 	private void gerarNotificacao() {
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
 		.setSmallIcon(R.drawable.ic_launcher)

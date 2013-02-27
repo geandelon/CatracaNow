@@ -41,44 +41,51 @@ public class CatracaNowService extends IntentService {
 		// Serviço, consulta, analisa, exibi notificações e retorna a nova lista
 
 		_mapeadorControleDeAcesso = new MapeadorControleDeAcesso(this);
+		gerarNotificacao();
+
+
 		try {
-			_listaAcessoAux = ControleDeAcesso.parse(_mapeadorControleDeAcesso.Consulte(_url));
+			_listaAcessoAtual = ControleDeAcesso.parse(_mapeadorControleDeAcesso.Consulte(_url));
 		} catch (JSONException e1) {
-			Toast.makeText(this, e1.getMessage(), Toast.LENGTH_SHORT).show();		
-		}
-		
-		if (_listaAcessoAtual != null) {
-			analisarAcessos();
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 
-	}
 
-	private void analisarAcessos() {
-		// compara as datas
-
-		if (_listaAcessoAux != null) {
-
-
-
-			for (int i = 0; i < _listaAcessoAux.size(); i++) {
-				gerarNotificacao();
-			}
-
-		}
-
+		// Normally we would do some work here, like download a file.
+		// For our sample, we just sleep for 5 seconds.
+		/*	      long endTime = System.currentTimeMillis() + 5*1000;
+	      while (System.currentTimeMillis() < endTime) {
+	          synchronized (this) {
+	              try {
+	                  wait(endTime - System.currentTimeMillis());
+	              } catch (Exception e) {
+	              }
+	          }
+	      }*/
 	}
 
 	private void gerarNotificacao() {
-		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-		.setSmallIcon(R.drawable.ic_launcher)
-		.setContentTitle("Passou na Catraca")
-		.setContentText("Fulano passou na catraca horário tal.");
+		// compara as datas
 
-		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		// Hide the notification after its selected
-		//noti.flags |= Notification.FLAG_AUTO_CANCEL;
+		for (int i = 0; i < _listaAcessoAux.size(); i++) {
 
-		notificationManager.notify(0, mBuilder.build());
+			//if (_listaAcessoAux.get(i).UltimoAcessoData.compareTo(_listaAcessoAtual.get(i).UltimoAcessoData) > 0)
+			//{
+			NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+			.setSmallIcon(R.drawable.ic_launcher)
+			.setContentTitle("Passou na Catraca")
+			.setContentText("Fulano passou na catraca horário tal.");
+
+			NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			// Hide the notification after its selected
+			//noti.flags |= Notification.FLAG_AUTO_CANCEL;
+
+			notificationManager.notify(0, mBuilder.build());
+		}
+
+		//}
+
 	}
 
 	@Override
