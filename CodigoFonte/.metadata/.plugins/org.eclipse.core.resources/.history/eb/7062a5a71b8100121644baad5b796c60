@@ -32,16 +32,21 @@ public class CatracaNowActivity extends Activity {
 
 		_contexto = this;
 		LocalBroadcastManager.getInstance(_contexto).registerReceiver(mMessageReceiver, new IntentFilter(CatracaNowService.ATUALIZACAO_ACESSOS_ACTIVITY));
-		LocalBroadcastManager.getInstance(_contexto).registerReceiver(mMessageReceiverFinalizou, new IntentFilter(CatracaNowService.FINALIZOU_SERVICE));
-
+		LocalBroadcastManager.getInstance(_contexto).registerReceiver(mMessageReceiver, new IntentFilter(CatracaNowService.FINALIZOU_SERVICE));
+		
 		//((ToggleButton) findViewById(R.id.toggleButton)).setOnClickListener(btnAcertoOnClickListener);
 		ToggleButton toggle = (ToggleButton) findViewById(R.id.toggleButton);
 		toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
+					// The toggle is enabled
+					//startService(new Intent(_contexto, CatracaNowService.class));
+
 					criarWorkerThread();
 
 				} else {
+					// The toggle is disabled
+					//stopService(new Intent(_contexto, CatracaNowService.class));
 					interromperWorkerThread();
 				}
 			}
@@ -60,14 +65,13 @@ public class CatracaNowActivity extends Activity {
 		super.onDestroy();
 		interromperWorkerThread();
 		LocalBroadcastManager.getInstance(_contexto).unregisterReceiver(mMessageReceiver);
-		LocalBroadcastManager.getInstance(_contexto).unregisterReceiver(mMessageReceiverFinalizou);
 	}
 
 	private void criarWorkerThread() {
-		if (_wT == null)	
+		if (_wT == null) {		
 			_wT = new WorkerThread();
-		
-		_wT.run();
+			_wT.run();
+		}
 	}
 
 	private void interromperWorkerThread() {
@@ -84,26 +88,32 @@ public class CatracaNowActivity extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			_listaAcessoAtual = (ArrayList<ControleDeAcesso>) intent.getSerializableExtra(CatracaNowService.VALOR);
-		}
-	};
-
-	private BroadcastReceiver mMessageReceiverFinalizou = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
 			_lock = false;
-			criarWorkerThread();
 		}
 	};
 
-	private class WorkerThread extends Thread {
+	private class WorkerThread extends Thread {		
+
 		@Override
 		public void run() {
-			if (!_lock) {
-				Intent intent = new Intent(_contexto, CatracaNowService.class);
-				intent.putExtra(VALOR, _listaAcessoAtual);
-				_lock = true;
-				startService(intent);
-			}
+
+			//while(true) {
+
+				//if (!_lock) {
+
+					//try {
+					//	sleep(10000);
+					//} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+					//	e.printStackTrace();
+					//}
+
+					Intent intent = new Intent(_contexto, CatracaNowService.class);
+					intent.putExtra(VALOR, _listaAcessoAtual);
+					startService(intent);
+					_lock = true;
+				//}
+			//}
 		}
 
 		@Override

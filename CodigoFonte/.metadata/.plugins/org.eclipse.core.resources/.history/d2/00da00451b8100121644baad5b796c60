@@ -21,7 +21,6 @@ public class CatracaNowService extends IntentService {
 
 	private static final String NOME_SERVICE = "CatracaNowService";
 	public static final String ATUALIZACAO_ACESSOS_ACTIVITY = "ATUALIZACAO_ACESSOS_ACTIVITY";
-	public static final String FINALIZOU_SERVICE = "FINALIZOU_SERVICE";
 	public static final String VALOR = "ListaDeAcesso";
 	private static final String _url = "http://10.0.1.81:23020/catracanow/Codigo/Servicos/ServicoControleDeAcesso.asmx/HelloWorld";
 	private ArrayList<ControleDeAcesso> _listaAcessoAtual;
@@ -75,9 +74,6 @@ public class CatracaNowService extends IntentService {
 		super.onDestroy();
 		Toast.makeText(this, "CatracaNowService Finalizado", Toast.LENGTH_SHORT).show();
 		Log.d(NOME_SERVICE, "onDestroy");
-		
-		Intent intent = new Intent(FINALIZOU_SERVICE);
-		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 	}
 
 	private void analisarAcessos() {

@@ -91,7 +91,14 @@ public class CatracaNowActivity extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			_lock = false;
+/*			try {
+				wait(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
 			criarWorkerThread();
+
 		}
 	};
 

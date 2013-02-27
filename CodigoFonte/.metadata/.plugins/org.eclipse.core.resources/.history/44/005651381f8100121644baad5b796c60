@@ -39,9 +39,14 @@ public class CatracaNowActivity extends Activity {
 		toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
+					// The toggle is enabled
+					//startService(new Intent(_contexto, CatracaNowService.class));
+
 					criarWorkerThread();
 
 				} else {
+					// The toggle is disabled
+					//stopService(new Intent(_contexto, CatracaNowService.class));
 					interromperWorkerThread();
 				}
 			}
@@ -92,6 +97,7 @@ public class CatracaNowActivity extends Activity {
 		public void onReceive(Context context, Intent intent) {
 			_lock = false;
 			criarWorkerThread();
+
 		}
 	};
 
