@@ -44,9 +44,8 @@ public class ControleDeAcesso implements Serializable {
 		JSONObject dado;
 		ControleDeAcesso controle;
 		
-		if (obj == null) {
+		if (obj == null)
 			return null;
-		}
 		
 		JSONArray arr = obj.getJSONArray("d");
 		for (int j = 0; j < arr.length(); j++) {

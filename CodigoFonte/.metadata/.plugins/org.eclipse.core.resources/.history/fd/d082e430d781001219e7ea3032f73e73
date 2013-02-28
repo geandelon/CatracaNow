@@ -7,6 +7,7 @@ import org.json.JSONException;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -90,13 +91,12 @@ public class CatracaNowService extends IntentService {
 
 	private void analisarAcessos() {
 		if (_listaAcessoAux != null)
-			for (int i = 0; i < _listaAcessoAux.size(); i++) {
-				if (_listaAcessoAux.get(i).UltimoAcessoData.compareTo(_listaAcessoAtual.get(i).UltimoAcessoData) > 0) 
-					gerarNotificacao(_listaAcessoAux.get(i), i);
-			}
+			for (int i = 0; i < _listaAcessoAux.size(); i++)
+				//if (_listaAcessoAux.get(i).UltimoAcessoData.compareTo(_listaAcessoAtual.get(i).UltimoAcessoData) > 0) 
+					gerarNotificacao(_listaAcessoAux.get(i));
 	}
 
-	private void gerarNotificacao(ControleDeAcesso pControle, int i) {
+	private void gerarNotificacao(ControleDeAcesso pControle) {
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
 		.setSmallIcon(R.drawable.ic_launcher)
 		.setContentTitle("Passou na Catraca");
@@ -111,7 +111,7 @@ public class CatracaNowService extends IntentService {
 		mBuilder.setDefaults(Notification.DEFAULT_SOUND);
 
 		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		notificationManager.notify(i, mBuilder.build());
+		notificationManager.notify(0, mBuilder.build());
 	}
 
 	private void enviarAcessos() {

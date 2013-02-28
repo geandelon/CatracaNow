@@ -91,7 +91,7 @@ public class CatracaNowService extends IntentService {
 	private void analisarAcessos() {
 		if (_listaAcessoAux != null)
 			for (int i = 0; i < _listaAcessoAux.size(); i++) {
-				if (_listaAcessoAux.get(i).UltimoAcessoData.compareTo(_listaAcessoAtual.get(i).UltimoAcessoData) > 0) 
+				//if (_listaAcessoAux.get(i).UltimoAcessoData.compareTo(_listaAcessoAtual.get(i).UltimoAcessoData) > 0) 
 					gerarNotificacao(_listaAcessoAux.get(i), i);
 			}
 	}
