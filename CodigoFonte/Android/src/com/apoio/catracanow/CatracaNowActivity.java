@@ -11,8 +11,7 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
-import android.widget.CompoundButton;
-import android.widget.Toast;
+import android.view.View;
 import android.widget.ToggleButton;
 
 import com.apoio.auxiliar.ControleDeAcesso;
@@ -23,7 +22,7 @@ public class CatracaNowActivity extends Activity {
 	private ArrayList<ControleDeAcesso> _listaAcessoAtual;
 	private WorkerThread _wT = null;
 	public static final String VALOR = "ListaDeAcesso";
-	private boolean _lock = false;
+	private boolean _off = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,26 +30,31 @@ public class CatracaNowActivity extends Activity {
 		setContentView(R.layout.activity_catraca_now);
 
 		_contexto = this;
+		((ToggleButton) findViewById(R.id.toggleButton)).setOnClickListener(btnOnOffListener);
+	}
+
+	protected void onStart() {
+		super.onStart();
 		LocalBroadcastManager.getInstance(_contexto).registerReceiver(mMessageReceiver, new IntentFilter(CatracaNowService.ATUALIZACAO_ACESSOS_ACTIVITY));
 		LocalBroadcastManager.getInstance(_contexto).registerReceiver(mMessageReceiverFinalizou, new IntentFilter(CatracaNowService.FINALIZOU_SERVICE));
-
-		//((ToggleButton) findViewById(R.id.toggleButton)).setOnClickListener(btnAcertoOnClickListener);
-		ToggleButton toggle = (ToggleButton) findViewById(R.id.toggleButton);
-		toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (isChecked) {
-					criarWorkerThread();
-
-				} else {
-					interromperWorkerThread();
-				}
-			}
-		});
 	}
+
+	View.OnClickListener btnOnOffListener = new View.OnClickListener() {
+		public void onClick(View v) {
+			boolean on = ((ToggleButton) v).isChecked();
+
+			if (on) {
+				_off = false;
+				criarWorkerThread();
+			} else {
+				_off = true;
+				interromperWorkerThread();
+			}
+		}		
+	};
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_catraca_now, menu);
 		return true;
 	}
@@ -64,15 +68,18 @@ public class CatracaNowActivity extends Activity {
 	}
 
 	private void criarWorkerThread() {
-		if (_wT == null)	
+		if (_wT != null)
+			interromperWorkerThread();
+
+		if (!_off) {
 			_wT = new WorkerThread();
-		
-		_wT.run();
+			_wT.run();
+		}
 	}
 
 	private void interromperWorkerThread() {
 		if (_wT != null) {
-			Toast.makeText(this, "Interrompendo a Thread de gerenciamento de consulta.", Toast.LENGTH_LONG).show();
+			//Toast.makeText(this, "Interrompendo a Thread de gerenciamento de consulta.", Toast.LENGTH_LONG).show();
 			Log.d("CatracaNow", "Interrompendo a Thread de gerenciamento de consulta.");
 			_wT.interrupt();
 			_wT = null;	
@@ -90,7 +97,6 @@ public class CatracaNowActivity extends Activity {
 	private BroadcastReceiver mMessageReceiverFinalizou = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			_lock = false;
 			criarWorkerThread();
 		}
 	};
@@ -98,12 +104,9 @@ public class CatracaNowActivity extends Activity {
 	private class WorkerThread extends Thread {
 		@Override
 		public void run() {
-			if (!_lock) {
-				Intent intent = new Intent(_contexto, CatracaNowService.class);
-				intent.putExtra(VALOR, _listaAcessoAtual);
-				_lock = true;
-				startService(intent);
-			}
+			Intent intent = new Intent(_contexto, CatracaNowService.class);
+			intent.putExtra(VALOR, _listaAcessoAtual);
+			startService(intent);
 		}
 
 		@Override
@@ -111,5 +114,4 @@ public class CatracaNowActivity extends Activity {
 			super.finalize();
 		}
 	}
-
 }

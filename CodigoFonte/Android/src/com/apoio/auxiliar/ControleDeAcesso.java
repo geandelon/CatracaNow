@@ -62,8 +62,7 @@ public class ControleDeAcesso implements Serializable {
 			}
 	        
 	        lista.add(controle);
-		}
-		
+		}		
         
         return lista;
 	}
