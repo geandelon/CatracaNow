@@ -1,2 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="android.view.View"/>
+<fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
+<fullyQualifiedTypeName name="com.apoio.auxiliar.ControleDeAcesso"/>
+<fullyQualifiedTypeName name="android.app.Notification"/>
+<fullyQualifiedTypeName name="com.apoio.catracanow.CatracaNowService"/>
+<fullyQualifiedTypeName name="android.view.View.OnCreateContextMenuListener"/>
+<fullyQualifiedTypeName name="com.apoio.catracanow.CatracaNowActivity"/>
+<fullyQualifiedTypeName name="com.apoio.catracanow.ConfiguracoesActivity"/>
+</qualifiedTypeNameHistroy>

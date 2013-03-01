@@ -42,7 +42,7 @@ public class CatracaNowActivity extends Activity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		startActivity(new Intent(this, ConfiguracoesActivity.class));
+		startActivity(new Intent(this, ParadaActivity.class));
 		return true;
 /*		switch (item.getItemId()) {
 		case R.id.menu_parada:

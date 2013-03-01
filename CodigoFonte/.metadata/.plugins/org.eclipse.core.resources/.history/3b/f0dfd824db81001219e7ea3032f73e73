@@ -35,11 +35,6 @@
             android:enabled="true"
             android:exported="true" >
         </service>
-
-        <activity
-            android:name="com.apoio.catracanow.ConfiguracoesActivity"
-            android:label="@string/title_activity_configuracoes" >
-        </activity>
     </application>
 
 </manifest>

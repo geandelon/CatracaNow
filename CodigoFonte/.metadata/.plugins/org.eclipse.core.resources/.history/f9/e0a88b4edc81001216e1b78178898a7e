@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ToggleButton;
 
@@ -38,26 +37,6 @@ public class CatracaNowActivity extends Activity {
 		super.onStart();
 		LocalBroadcastManager.getInstance(_contexto).registerReceiver(mMessageReceiver, new IntentFilter(CatracaNowService.ATUALIZACAO_ACESSOS_ACTIVITY));
 		LocalBroadcastManager.getInstance(_contexto).registerReceiver(mMessageReceiverFinalizou, new IntentFilter(CatracaNowService.FINALIZOU_SERVICE));
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		startActivity(new Intent(this, ConfiguracoesActivity.class));
-		return true;
-/*		switch (item.getItemId()) {
-		case R.id.menu_parada:
-			startActivity(new Intent(this, ParadaActivity.class));
-			return true;	  
-	    case R.id.menu_acerto:
-	    	startActivity(new Intent(this, AcertoActivity.class));
-	        return true;	  	        
-	    case R.id.menu_configuracoes:
-	    	Intent intent = new Intent(this, ConfiguracoesActivity.class);
-	    	startActivity(intent);
-	        return true;	
-	    default:
-	        return super.onOptionsItemSelected(item);
-	    }*/
 	}
 
 	View.OnClickListener btnOnOffListener = new View.OnClickListener() {
