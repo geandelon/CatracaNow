@@ -42,7 +42,7 @@ public class CatracaNowActivity extends Activity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		startActivity(new Intent(this, ConfiguracoesActivity.class));
+		//startActivity(new Intent(this, ConfiguracoesActivity.class));
 		return true;
 /*		switch (item.getItemId()) {
 		case R.id.menu_parada:
@@ -125,9 +125,10 @@ public class CatracaNowActivity extends Activity {
 	private class WorkerThread extends Thread {
 		@Override
 		public void run() {
-			Intent intent = new Intent(_contexto, CatracaNowService.class);
-			intent.putExtra(VALOR, _listaAcessoAtual);
-			startService(intent);
+			//Intent intent = new Intent(_contexto, CatracaNowService.class);
+			//intent.putExtra(VALOR, _listaAcessoAtual);
+			//startService(intent);
+			startService(new Intent(_contexto, CatracaNowServiceTeste.class));
 		}
 
 		@Override
